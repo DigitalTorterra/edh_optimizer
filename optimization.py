@@ -3,24 +3,26 @@ import exploration
 
 
 # Load deck
-cards = exploration.load_deck('moxfield_output.json')
+cards = exploration.load_deck('moxfield_output_v2.json')
 card_labels = [card.label for card in cards]
 
 # Weights
 tag_weights = {
-    'Beaters': 1,
+    'Beaters': 3,
     'Burn': 1,
-    'Card Draw': 2,
-    'Counter Doubler': 1,
-    'Counter Increment': 1,
-    'Counters': 1,
+    'Card Draw': 4,
+    'Counter Doubler': 2,
+    'Counter Increment': 0.7,
+    'Counters': 0.3,
     'Interaction': 1,
     'Kicker': 1,
     'Land': 1,
-    'Ramp': 2,
+    'Ramp': 3,
     'Recursion': 1,
+    'Graveyard Hate': 1,
+    'Protection': 1,
 }
-cmc_weight = 0
+cmc_weight = 1
 price_weight = 0
 
 tag_mins = {
@@ -42,6 +44,13 @@ required_cards = [
     'sol_ring',
     'arcane_signet',
     'twinflame_tyrant',
+    'branching_evolution',
+    'cankerbloom',
+    'gyre_sage',
+    'kami_of_whispered_hopes',
+    'ornery_tumblewagg',
+    'thickest_in_the_thicket',
+    'lifecrafters_bestiary',
 ]
 
 # Define problem
@@ -66,7 +75,7 @@ price_sum = pl.lpSum([card_vars[card.label] * card.price
                     for card in cards])
 
 prob += (
-    tag_sum + cmc_sum * cmc_weight + price_sum * price_weight,
+    tag_sum - cmc_sum * cmc_weight - price_sum * price_weight,
     'Total weighted sum of cards'
 )
 

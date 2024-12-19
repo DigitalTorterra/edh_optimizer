@@ -191,5 +191,5 @@ def load_deck(json_path: str) -> List[Card]:
 
 
 if __name__ == '__main__':
-    parsed_cards = load_deck('moxfield_output.json')
+    parsed_cards = load_deck('moxfield_output_v2.json')
     summarize_card_list(parsed_cards)
